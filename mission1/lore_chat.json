@@ -42,11 +42,17 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        140,
-        220
+        144,
+        224
       ],
       "id": "e1000000-0000-4000-8000-000000000003",
-      "name": "Google Gemini Chat Model"
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "SU8YfF3DB89e2i3m",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
     },
     {
       "parameters": {
@@ -55,8 +61,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.4,
       "position": [
-        300,
-        220
+        304,
+        224
       ],
       "id": "e1000000-0000-4000-8000-000000000004",
       "name": "Simple Memory"
@@ -69,14 +75,13 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.5,
       "position": [
-        460,
-        220
+        464,
+        224
       ],
       "id": "e1000000-0000-4000-8000-000000000005",
       "name": "lore_info"
     }
   ],
-  "pinData": {},
   "connections": {
     "When chat message received": {
       "main": [
@@ -123,14 +128,9 @@
       ]
     }
   },
-  "active": false,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
-  "versionId": "e3000000-0000-4000-8000-000000000001",
-  "meta": {
-    "instanceId": "n8nfinal2026"
-  },
-  "id": "companyChat1",
-  "tags": []
+  "pinData": {}
 }

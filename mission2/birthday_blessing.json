@@ -36,7 +36,7 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.9,
       "position": [
-        220,
+        224,
         0
       ],
       "id": "f1000000-0000-4000-8000-000000000002",
@@ -50,11 +50,17 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.1,
       "position": [
-        220,
-        200
+        224,
+        208
       ],
       "id": "f1000000-0000-4000-8000-000000000003",
-      "name": "Google Gemini Chat Model"
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "SU8YfF3DB89e2i3m",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
     },
     {
       "parameters": {
@@ -68,9 +74,10 @@
         },
         "table": {
           "__rl": true,
-          "value": "",
+          "value": "tblJYWHhd5ydBHI9b",
           "mode": "list",
-          "cachedResultName": ""
+          "cachedResultName": "blessings",
+          "cachedResultUrl": "https://airtable.com/appaFfqRxFiiXv4t6/tblJYWHhd5ydBHI9b"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -159,11 +166,17 @@
       "type": "n8n-nodes-base.airtable",
       "typeVersion": 2.2,
       "position": [
-        460,
+        464,
         0
       ],
       "id": "f1000000-0000-4000-8000-000000000004",
-      "name": "Create a record"
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "Yv4RB2P3aA3MGBWL",
+          "name": "Airtable Personal Access Token account 2"
+        }
+      }
     },
     {
       "parameters": {
@@ -177,11 +190,17 @@
       "type": "n8n-nodes-base.sendInBlue",
       "typeVersion": 1,
       "position": [
-        700,
+        704,
         0
       ],
       "id": "f1000000-0000-4000-8000-000000000005",
-      "name": "Send a transactional email"
+      "name": "Send a transactional email",
+      "credentials": {
+        "sendInBlueApi": {
+          "id": "mvpL3HUrG3kw9hig",
+          "name": "Brevo account"
+        }
+      }
     },
     {
       "parameters": {
@@ -192,14 +211,13 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        940,
+        944,
         0
       ],
       "id": "f1000000-0000-4000-8000-000000000006",
       "name": "Respond to Webhook"
     }
   ],
-  "pinData": {},
   "connections": {
     "Webhook": {
       "main": [
@@ -257,14 +275,9 @@
       ]
     }
   },
-  "active": false,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
-  "versionId": "f3000000-0000-4000-8000-000000000001",
-  "meta": {
-    "instanceId": "n8nfinal2026"
-  },
-  "id": "birthdayBlessing1",
-  "tags": []
+  "pinData": {}
 }

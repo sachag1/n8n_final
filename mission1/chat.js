@@ -1,7 +1,7 @@
 import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
 // paste here the production url of the Chat Trigger node
-const WEBHOOK_URL = 'http://localhost:5678/webhook/PUT_YOUR_WEBHOOK_ID_HERE/chat';
+const WEBHOOK_URL = 'http://localhost:5678/webhook/e2000000-0000-4000-8000-000000000001/chat';
 
 const init = () => {
   createChat({

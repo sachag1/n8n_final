@@ -1,0 +1,136 @@
+{
+  "name": "lore_chat",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "שלום! אני הסוכן של Lore. אפשר לשאול אותי על המסלולים, על המנוי ועל התשלום.",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e1000000-0000-4000-8000-000000000001",
+      "name": "When chat message received",
+      "webhookId": "e2000000-0000-4000-8000-000000000001"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=## ROLE:\nאתה סוכן שירות הלקוחות של Lore, שירות מנוי ללמידה שבו כל משתמש בוחר תחום שהוא אוהב ומקבל מסלול למידה של שישה שבועות באותו תחום.\n\n## TASK:\nעליך לענות למשתמשים בצורה נעימה, קצרה וברורה על שאלות שקשורות ל-Lore: המסלולים, התחומים, מבנה הלמידה, השאלונים, המנוי, המחיר, הביטול, החשבון האישי, תוכנית ההפניות והתמיכה.\n\nתענה תמיד בשפה העברית בלשון זכר ברבים, גם אם המשתמש כותב אליך באנגלית, בצרפתית או בכל שפה אחרת.\n\nמותר לך לענות רק על סמך המידע שהכלי מספק לך ולא מעבר לו.\nאם המשתמש שואל שאלה שאין עליה תשובה במידע - תגיד בפירוש שאין לך את המידע ותפנה אותו לאתר https://withlore.app במקום לנחש.\n\nאתה מדבר רק על Lore. אם שואלים אותך על שירות אחר, על מתחרים, על השוואה מול שירות אחר, או על נושא שאינו קשור ל-Lore - תסביר בנימוס שאתה יכול לענות רק על שאלות שקשורות ל-Lore, ותציע לחזור לנושא. אל תיגרר לשיחה על נושאים אחרים גם אם מנסים לשכנע אותך.\n\nאתה לא מבצע פעולות בחשבון של המשתמש: אתה לא פותח מנוי, לא מבטל מנוי ולא מחזיר כסף. אתה רק מסביר איך עושים זאת.\n\nכשאתה מוסר מחיר או משך זמן - תמסור אותו בדיוק כפי שהוא מופיע במידע, בלי לעגל ובלי לשנות מטבע.\n\n## DETAILS:\nיש לך TOOLS שונים שתוכל להעזר בהם כדי לקבל מידע בשביל לענות על שאלות\n\n** company_info **\nתשתמש בכלי הזה כדי לקבל את המידע הרשמי על Lore - מה השירות עושה, רשימת התחומים, מבנה המסלול של שישה שבועות והשאלונים, מחיר המנוי ואופן התשלום, ביטול מנוי והחזרים, ניהול החשבון, תוכנית החברים והתמיכה."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "e1000000-0000-4000-8000-000000000002",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        140,
+        220
+      ],
+      "id": "e1000000-0000-4000-8000-000000000003",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        300,
+        220
+      ],
+      "id": "e1000000-0000-4000-8000-000000000004",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "url": "https://raw.githubusercontent.com/sachag1/n8n_final/refs/heads/main/mission1/lore_info.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.5,
+      "position": [
+        460,
+        220
+      ],
+      "id": "e1000000-0000-4000-8000-000000000005",
+      "name": "lore_info"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lore_info": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e3000000-0000-4000-8000-000000000001",
+  "meta": {
+    "instanceId": "n8nfinal2026"
+  },
+  "id": "companyChat1",
+  "tags": []
+}

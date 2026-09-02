@@ -1,0 +1,270 @@
+{
+  "name": "birthday_blessing",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "birthday-blessing",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f1000000-0000-4000-8000-000000000001",
+      "name": "Webhook",
+      "webhookId": "f2000000-0000-4000-8000-000000000001"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.Topics }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=## ROLE\nאתה כותב ברכות ליום הולדת.\n\n## TASK\nכתוב ברכה אישית ליום הולדת עבור {{ $json.body.ToName }}.\nהברכה נכתבת מטעם {{ $json.body.FromName }}.\nמין מקבל הברכה הוא: {{ $json.body.Gender }} - הטה את כל הפעלים ותארי השם בהתאם.\nהנושאים שמקבל הברכה אוהב: {{ $json.body.Topics }} - שלב אותם בברכה.\n\n## DETAILS\nכתוב בעברית, בין 40 ל-80 מילים, בטון חם ומשועשע.\nפתח בפנייה בשם, שלב את הנושאים האהובים בצורה טבעית ולא כרשימה,\nוסיים בחתימה בשם של מי ששלח את הברכה.\nהחזר רק את טקסט הברכה, בלי כותרת ובלי הסברים."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        220,
+        0
+      ],
+      "id": "f1000000-0000-4000-8000-000000000002",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        220,
+        200
+      ],
+      "id": "f1000000-0000-4000-8000-000000000003",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appaFfqRxFiiXv4t6",
+          "mode": "list",
+          "cachedResultName": "n8n_july8",
+          "cachedResultUrl": "https://airtable.com/appaFfqRxFiiXv4t6"
+        },
+        "table": {
+          "__rl": true,
+          "value": "",
+          "mode": "list",
+          "cachedResultName": ""
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ToName": "={{ $('Webhook').item.json.body.ToName }}",
+            "FromName": "={{ $('Webhook').item.json.body.FromName }}",
+            "Gender": "={{ $('Webhook').item.json.body.Gender }}",
+            "Topics": "={{ $('Webhook').item.json.body.Topics }}",
+            "Email": "={{ $('Webhook').item.json.body.Email }}",
+            "Blessing": "={{ $json.text }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ToName",
+              "displayName": "ToName",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "FromName",
+              "displayName": "FromName",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Gender",
+              "displayName": "Gender",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Topics",
+              "displayName": "Topics",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Blessing",
+              "displayName": "Blessing",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        460,
+        0
+      ],
+      "id": "f1000000-0000-4000-8000-000000000004",
+      "name": "Create a record"
+    },
+    {
+      "parameters": {
+        "subject": "=מזל טוב ליום ההולדת, {{ $json.fields.ToName }}!",
+        "textContent": "={{ $json.fields.Blessing }}",
+        "sender": "sachaganem55@gmail.com",
+        "receipients": "={{ $json.fields.Email }}",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.sendInBlue",
+      "typeVersion": 1,
+      "position": [
+        700,
+        0
+      ],
+      "id": "f1000000-0000-4000-8000-000000000005",
+      "name": "Send a transactional email"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"msg\": \"הברכה נוצרה ונשלחת ברגעים אלה לנמען\", \"to\": $('Create a record').item.json.fields.ToName, \"email\": $('Create a record').item.json.fields.Email, \"blessing\": $('Create a record').item.json.fields.Blessing } }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        940,
+        0
+      ],
+      "id": "f1000000-0000-4000-8000-000000000006",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Send a transactional email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a transactional email": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f3000000-0000-4000-8000-000000000001",
+  "meta": {
+    "instanceId": "n8nfinal2026"
+  },
+  "id": "birthdayBlessing1",
+  "tags": []
+}

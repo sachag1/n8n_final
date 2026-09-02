@@ -1,0 +1,46 @@
+:root {
+  --orange: #ff6600;
+  --orange-dark: #cc5200;
+}
+
+body {
+  background: #f5f5f5;
+  font-family: system-ui, "Segoe UI", Arial, sans-serif;
+}
+
+.page-title {
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.page-sub {
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+/* the top of the chat is orange, as the assignment requires */
+#n8n-chat {
+  --chat--header--background: var(--orange);
+  --chat--header--color: #ffffff;
+  --chat--heading--font-size: 1.4rem;
+  --chat--subtitle--font-size: 0.9rem;
+
+  --chat--color-primary: var(--orange);
+  --chat--color-primary-shade-50: var(--orange-dark);
+  --chat--color-primary-shade-100: var(--orange-dark);
+
+  --chat--message--user--background: var(--orange);
+  --chat--message--user--color: #ffffff;
+  --chat--toggle--background: var(--orange);
+  --chat--toggle--hover--background: var(--orange-dark);
+  --chat--toggle--active--background: var(--orange-dark);
+
+  --chat--window--width: 100%;
+  --chat--window--height: 600px;
+
+  max-width: 700px;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
